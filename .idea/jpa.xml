@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpaBuddyIdeaProjectConfig">
+    <option name="defaultUnitInitialized" value="true" />
+    <option name="renamerInitialized" value="true" />
+  </component>
+  <component name="PersistenceUnitSettings">
+    <persistence-units>
+      <persistence-unit moduleName="user-service" name="Default">
+        <packages>
+          <package value="com.cine_clash.user_service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="discovery-service" name="Default">
+        <packages>
+          <package value="com.cine_clash.discovery_service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="payement-service" name="Default">
+        <packages>
+          <package value="com.cine_clash.payement_service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="fantasy-service" name="Default">
+        <packages>
+          <package value="com.cine_clash.fantasy_service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="api-gateway" name="Default">
+        <packages>
+          <package value="com.cine_clash.api_gateway" />
+        </packages>
+      </persistence-unit>
+    </persistence-units>
+  </component>
+</project>

@@ -1,0 +1,5 @@
+CREATE DATABASE auth_db;
+CREATE DATABASE catalog_db;
+CREATE DATABASE billing_db;
+CREATE DATABASE fantasy_db;
+CREATE DATABASE streaming_db;

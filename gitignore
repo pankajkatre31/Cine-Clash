@@ -1,0 +1,24 @@
+# IDE
+.idea/
+*.iml
+out/
+
+# Build
+target/
+build/
+*.class
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Docker
+docker/.env
+
+# Logs
+*.log
+
+# Flutter (if frontend added later)
+pubspec.lock
+.dart_tool/
+build/

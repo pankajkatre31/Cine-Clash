@@ -1,0 +1,94 @@
+version: "3.9"
+name: cineclash-dev
+
+x-common-env: &common-env
+  TZ: Asia/Kolkata
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: cc-postgres
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports: ["${PG_PORT}:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  zookeeper:
+    image: bitnami/zookeeper:3.9
+    container_name: cc-zookeeper
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+    ports: ["${ZOOKEEPER_PORT}:2181"]
+
+  kafka:
+    image: bitnami/kafka:3.7
+    container_name: cc-kafka
+    restart: unless-stopped
+    depends_on: [zookeeper]
+    ports: ["${KAFKA_PORT}:9092"]
+    environment:
+      <<: *common-env
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+    healthcheck:
+      test: ["CMD", "kafka-topics.sh", "--bootstrap-server", "kafka:9092", "--list"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  zipkin:
+    image: openzipkin/zipkin:2
+    container_name: cc-zipkin
+    restart: unless-stopped
+    ports: ["${ZIPKIN_PORT}:9411"]
+
+  pgadmin:
+    image: dpage/pgadmin4:8
+    container_name: cc-pgadmin
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      PGADMIN_DEFAULT_EMAIL: admin@local
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports: ["${PGADMIN_PORT}:80"]
+    depends_on: [postgres]
+
+  # --- Optional: run discovery & gateway as containers (or run from IntelliJ) ---
+
+  eureka:
+    build: ../services/discovery-service
+    container_name: cc-eureka
+    restart: unless-stopped
+    environment: *common-env
+    ports: ["${EUREKA_PORT}:8761"]
+    depends_on: [kafka, postgres]
+
+  gateway:
+    build: ../services/api-gateway
+    container_name: cc-gateway
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      JWT_SECRET: ${JWT_SECRET}
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+    ports: ["${GATEWAY_PORT}:8080"]
+    depends_on: [eureka]
+
+volumes:
+  pgdata:
