@@ -1,12 +1,12 @@
-package service;
+package com.cine_clash.user_service.service;
 
-import dto.LoginRequest;
-import dto.RefreshRequest;
-import dto.SignupRequest;
-import entity.User;
-import entity.RefreshToken;
-import repository.UserRepository;
-import repository.RefreshTokenRepository;
+import com.cine_clash.user_service.dto.LoginRequest;
+import com.cine_clash.user_service.dto.RefreshRequest;
+import com.cine_clash.user_service.dto.SignupRequest;
+import com.cine_clash.user_service.entity.User;
+import com.cine_clash.user_service.entity.RefreshToken;
+import com.cine_clash.user_service.repository.UserRepository;
+import com.cine_clash.user_service.repository.RefreshTokenRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

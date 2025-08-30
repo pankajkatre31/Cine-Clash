@@ -1,4 +1,4 @@
-package entity;
+package com.cine_clash.user_service.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

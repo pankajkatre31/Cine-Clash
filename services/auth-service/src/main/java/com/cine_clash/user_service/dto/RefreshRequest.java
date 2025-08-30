@@ -1,4 +1,4 @@
-package dto;
+package com.cine_clash.user_service.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

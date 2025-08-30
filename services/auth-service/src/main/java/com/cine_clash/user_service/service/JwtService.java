@@ -1,6 +1,6 @@
-package service;
+package com.cine_clash.user_service.service;
 
-import entity.User;
+import com.cine_clash.user_service.entity.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
