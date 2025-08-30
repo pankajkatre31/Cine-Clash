@@ -1,12 +1,12 @@
 version: "3.9"
-name: cineclash-dev
+# name: cineclash-dev
 
 x-common-env: &common-env
   TZ: Asia/Kolkata
 
 services:
   postgres:
-    image: postgres:15
+    image: postgres:15.3
     container_name: cc-postgres
     restart: unless-stopped
     environment:
@@ -63,8 +63,8 @@ services:
     restart: unless-stopped
     environment:
       <<: *common-env
-      PGADMIN_DEFAULT_EMAIL: admin@local
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: pankajkatre31@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: pankaj12
     ports: ["${PGADMIN_PORT}:80"]
     depends_on: [postgres]
 
@@ -78,17 +78,17 @@ services:
     ports: ["${EUREKA_PORT}:8761"]
     depends_on: [kafka, postgres]
 
-  gateway:
-    build: ../services/api-gateway
-    container_name: cc-gateway
-    restart: unless-stopped
-    environment:
-      <<: *common-env
-      JWT_SECRET: ${JWT_SECRET}
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
-      SPRING_PROFILES_ACTIVE: docker
-    ports: ["${GATEWAY_PORT}:8080"]
-    depends_on: [eureka]
-
+  #gateway:
+    #build: ../services/api-gateway
+    #container_name: cc-gateway
+  #  restart: unless-stopped
+   # environment:
+   #   <<: *common-env
+   #   JWT_SECRET: ${JWT_SECRET}
+   #   EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
+   #   SPRING_PROFILES_ACTIVE: docker
+   # ports: ["${GATEWAY_PORT}:8080"]
+   # depends_on: [eureka]
+###
 volumes:
   pgdata:

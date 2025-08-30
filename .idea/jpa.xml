@@ -31,6 +31,11 @@
           <package value="com.cine_clash.api_gateway" />
         </packages>
       </persistence-unit>
+      <persistence-unit moduleName="auth-service" name="Default">
+        <packages>
+          <package value="com.cine_clash.user_service" />
+        </packages>
+      </persistence-unit>
     </persistence-units>
   </component>
 </project>
